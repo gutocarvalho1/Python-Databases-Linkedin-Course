@@ -8,4 +8,5 @@ dependencies = [
     "mysql-connector-python>=9.5.0",
     "python-dotenv>=1.2.1",
     "sqlalchemy>=2.0.46",
+    "sqlalchemy-utils>=0.42.1",
 ]
