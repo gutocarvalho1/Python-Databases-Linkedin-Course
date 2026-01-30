@@ -1,7 +1,7 @@
-from db.connection import connect
+from db.connection import mysql_connect
 
 def main():
-    db = connect('projects')
+    db = mysql_connect('projects')
     cursor = db.cursor()
     cursor.execute("SELECT * FROM projects")
     result = cursor.fetchall()

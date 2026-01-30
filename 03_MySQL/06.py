@@ -1,4 +1,4 @@
-from db.connection import connect
+from db.connection import mysql_connect
 
 def add_project(cursor, project_title, project_description, tasks):
     project_data = (project_title, project_description)
@@ -12,7 +12,7 @@ def add_project(cursor, project_title, project_description, tasks):
     cursor.executemany("INSERT INTO tasks(project_id, description) VALUES (%s, %s)", tasks_data)
 
 def main():
-    db = connect('projects')
+    db = mysql_connect('projects')
     if db is not None:
         cursor = db.cursor()
     else:
