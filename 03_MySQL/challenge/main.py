@@ -10,7 +10,8 @@ MENU = """
     1 - Add customer
     2 - Add product
     3 - Add order
-    4 - Exit
+    4 - Show most expensive order
+    5 - Exit
 """
 
 def clear_terminal():
@@ -49,13 +50,19 @@ def crud_op(session: Session, op: int):
             )
             session.flush()
             print(f"Order {order_type} successfully added (id={new_order.id}).")
+        case "4":
+            clear_terminal()
+            order = sales.get_most_expensive_order(session)
+            if order is not None:
+                customer = sales.get_customer(session, order.customer_id)
+                print(f"Most expensive order: {order}\nCustomer: {customer.name}")
 
 def main():
     with Session(engine) as session:
         while True:
             print(MENU)
             option = input()
-            if option in ("1", "2", "3"):
+            if option in ("1", "2", "3", "4"):
                 try:
                     crud_op(session, option)
                     session.commit()
@@ -63,7 +70,7 @@ def main():
                     session.rollback()
                     print(f"Error ocurred, terminating session... ({e})")
                     return
-            elif option == "4":
+            elif option == "5":
                 return
             else:
                 print("Please, select a valid option!")

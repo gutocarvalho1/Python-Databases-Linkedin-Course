@@ -1,4 +1,5 @@
 from decimal import Decimal
+from sqlalchemy import select, func
 from sqlalchemy.orm import Session
 
 from db.model import Customer, Product, Order
@@ -52,3 +53,13 @@ def add_order(
 
     session.add(new_order)
     return new_order
+
+def get_most_expensive_order(session: Session) -> Order:
+    smt = select(Order).order_by(Order.order_total.desc())
+    return session.scalars(smt).first()
+
+def get_product(session: Session, product_id: int) -> Product:
+    return session.get(Product, product_id)
+
+def get_customer(session: Session, customer_id: int) -> Customer:
+    return session.get(Customer, customer_id)
